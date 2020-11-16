@@ -1,33 +1,25 @@
-#!/usr/bin/env python
-# coding: utf-8
+""""
+Option Parser for Black Scholes data for S&P500 companies
 
-# # Option Data Scraper for Black Scholes
-# This program will scrape the following information about **all** current call contracts for batches of 10 companies in the S&P500. The program will write into a csv called `"SNP.csv"`:
-# * Option price
-# * Option strike price
-# * Option time to maturity (in years)
-# * Underlying stock price
-# * Underlying stock dividend yield
-# * Underlying stock implied volatility
-# 
-# Almost all data is scraped from Yahoo Finance, with the exception of implied volatility, which is scraped from AlphaQuery
+    Author: Juan Diego Herrera
+"""
 
-# ## Import dependencies
+# Set up arguments
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--batches", type= int, default=5, help="number of batches to extract data from")
+parser.add_argument("--bs", type= int, default=10, help="number of companies whose data will be extracted in a batch")
+parser.add_argument("--rf", type= float, required=True, default=0.0088, help="current risk free rate")
+parser.add_argument("--wait", type= float, default=500, help="time to wait between batches to avoid server denial")
+parser.add_argument("--verbose", type= int, default=True, help="flag to print progress")
+args = parser.parse_args()
 
-# In[1]:
-
-
+# Imports
 from bs4 import BeautifulSoup
 import datetime, time
 import requests
 import pandas as pd
 import sched
-
-
-# ## Helper functions
-
-# In[2]:
-
 
 def getTickers():
     """Returns the tickers for all the S&P500 companies using the Wikipedia page
@@ -45,10 +37,6 @@ def getTickers():
                 tickers.append(cols[0].text.strip())
     return tickers
 
-
-# In[3]:
-
-
 def getStockVol(ticker):
     """Returns a stock's 30-day implied volatility from alphaqueries
     Inputs:
@@ -63,9 +51,6 @@ def getStockVol(ticker):
     rows = table.find_all('tr') 
     volatility = float(rows[5].find_all('td')[1].text.strip()) # Specific table entry in AlphaQuery containing data
     return volatility
-
-
-# In[4]:
 
 
 def getStockData(ticker):
@@ -105,9 +90,6 @@ def getStockData(ticker):
     return stock_price, div_yield, volatility
 
 
-# In[5]:
-
-
 def getDates(url):
     """Returns all valid option dates for a given Yahoo options url
     Inputs:
@@ -122,9 +104,6 @@ def getDates(url):
     for item in list(soup.find("select").children):
         dates.append(int(item['value']))
     return dates
-
-
-# In[6]:
 
 
 def getOptionData(url):
@@ -160,13 +139,6 @@ def getOptionData(url):
             else:
                 prices.append(last)
     return strikes, prices
-
-
-# ## Scraper
-# Here we will iterate through every call contract available the given batch size in the S&P index. At the end we will append the entire dataset to an existing csv
-
-# In[7]:
-
 
 def scrapeData(startIndex, bs, rf, verbose = True):
     """Writes into a csv the option values for a batch of stock tickers. During execution may print url and company tickers
@@ -248,37 +220,26 @@ def scrapeData(startIndex, bs, rf, verbose = True):
             print('----------------------------------------------------')
             print()
     
-    # End of main loop, concatenate all frames and export to csv
+    # End of loop, concatenate all frames and export to csv
     results.to_csv('SNP.csv', mode = 'a', index = False, header = False)
 
 
-# ## Main Loop
-# Iterate through the tickers. 
-# 
-# Change the value of `num_batches` to determine how many batches of tickers (of size `bs`) you'll scrape
-# 
-# To avoid server denial for too many requests, we sleep for 500 seconds until next batch is scraped
-# 
-# In the event of a server denial, the program will error out but some data will still have been written on the csv
-
-# In[10]:
-
-
+# Main code
 cols  = ['Stock Price', 'Strike Price', 'Maturity', 'Dividends', 'Volatility', 'Risk-free', 'Call Price']
-start = int(time.time()) # Used for timekeeping 
-
 results = pd.DataFrame(columns = cols)
 results.to_csv('SNP.csv', index = False)
 
-num_batches = 3
-bs = 10
-rf = 0.0088
-wait_period = 500
+num_batches = args.batches
+bs = args.bs
+rf = args.rf
+wait_period = args.wait
+verbose = args.verbose
 
 
 for i in range(num_batches):
-    scrapeData(i*bs, bs, rf, True)
+    scrapeData(i*bs, bs, rf, verbose)
+    if verbose:
+        print("Waiting for to avoid server denial")
+        print()
     time.sleep(wait_period)
-
-print("Time passed", (int(time.time()) - start), "seconds")
 
