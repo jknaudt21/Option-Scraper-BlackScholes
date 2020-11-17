@@ -9,9 +9,10 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--batches", type= int, default=5, help="number of batches to extract data from")
 parser.add_argument("--bs", type= int, default=10, help="number of companies whose data will be extracted in a batch")
-parser.add_argument("--rf", type= float, required=True, default=0.0088, help="current risk free rate")
+parser.add_argument("--rf", type= float, default=0.0088, help="current risk free rate")
 parser.add_argument("--wait", type= float, default=500, help="time to wait between batches to avoid server denial")
 parser.add_argument("--verbose", type= int, default=True, help="flag to print progress")
+parser.add_argument("--startIdx", type= int, default=0, help="company index to start scraping from")
 args = parser.parse_args()
 
 # Imports
@@ -234,12 +235,15 @@ bs = args.bs
 rf = args.rf
 wait_period = args.wait
 verbose = args.verbose
-
+startIdx = args.startIdx
 
 for i in range(num_batches):
-    scrapeData(i*bs, bs, rf, verbose)
-    if verbose:
-        print("Waiting for to avoid server denial")
-        print()
-    time.sleep(wait_period)
+    if (startIdx + (i*bs)) < (499 - bs): # only scrape data if we won't exceed the ticker list
+        scrapeData(startIdx+i*bs, bs, rf, verbose)
+        if verbose:
+            print("Waiting for to avoid server denial")
+            print()
+        time.sleep(wait_period)
+    else:
+        break
 
