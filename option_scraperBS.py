@@ -119,6 +119,8 @@ def getOptionData(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
     table = soup.find("table")
+    if table == None: #Avoid crashes with empty options page
+        return None, None
     strikes = []
     prices = []
     for row in table.find_all('tr'): # Iterate through every table entry
@@ -182,6 +184,10 @@ def scrapeData(startIndex, bs, rf, wait, verbose = True):
 
         # Firt entry receives special treament in case maturity is today
         strikes, prices = getOptionData(url) 
+
+        if strikes == None: #Avoid crashes with empty options page
+            pass
+
         maturity = (dates[0] - unixToday)/(60*60*24*365.25) # Convert UNIX time difference to fraction of a year
         if maturity <= 0:
             maturity = 1e-5 # trivial maturity for options that expire today
