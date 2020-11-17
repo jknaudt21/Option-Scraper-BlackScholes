@@ -1,4 +1,7 @@
 # Option-Scraper-BlackScholes
+
+**Author:** Juan Diego Herrera
+
 The code in this repo allows for scraping option data required for the [Black Scholes model](https://en.wikipedia.org/wiki/Black-Scholes_model). Data is scraped from S&P500 companies.
 
 Beyond the standard python libraries, the code requires `pandas`, `bs4` (Beautiful Soup), and `requests` to work properly
