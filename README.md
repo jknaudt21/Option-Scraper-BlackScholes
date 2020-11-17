@@ -1,9 +1,11 @@
 # Option-Scraper-BlackScholes
 The code in this repo allows for scraping option data required for the [Black Scholes model](https://en.wikipedia.org/wiki/Black-Scholes_model). Data is scraped from S&P500 companies.
 
+Beyond the standard python libraries, the code requires `pandas`, `bs4` (Beautiful Soup), and `requests` to work properly
+
 ## Background
 
-This scraper was originally created for quite a fun [project I worked on](https://github.com/samuellee19/CSCI145_Option_Pricing) regarding the use of neural nets in option pricing. Make sure to check it out!
+This scraper was originally created for quite a fun [project I worked on](https://github.com/samuellee19/CSCI145_Option_Pricing) regarding the use of neural nets in option pricing. The project might still be on the works. Make sure to check it out! The project might still be on the works.
 
 Getting access to option data can be quite expensive - especially when getting data in bulk. Datasets are often protected behind a paywall that can range from \$10-100. Furthermore, for those having access to financial tools such as a Bloomberg terminal (I'm looking at you, students), there is often a data quota that should not be exceeded.
 
@@ -22,13 +24,15 @@ This program will scrape the following information about **all** current call co
 Almost all data is scraped from Yahoo Finance, with the exception of implied volatility, which is scraped from AlphaQuery
 
 ## Usage
-This scraper is free to use! Just make sure to check out [this project](https://github.com/samuellee19/CSCI145_Option_Pricing) and star this repo if you find the scraper useful!
+This scraper is free to use! Just make sure to check out [this project](https://github.com/samuellee19/CSCI145_Option_Pricing) (*my grade might or might not depend on page views...*) and star this repo if you find the scraper useful!
 
 On the more technical side, the scraper can be used in either a Jupyter notebook or a plain `.py` file; the code is almost completely identical. That being said, the `.py` file allows for faster [parameter](#Parameters) tuning. The company for which the scraping occurs comes from [Wikipedia's list](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies).
 
 If you're using the `.py` make sure you pass the correct arguments (see below)
 
 **Important:** since the code is extracting a lot of data from several sites in Yahoo Finance and AlphaQuery, sometimes servers will block your IP for accessing their data for small period of time. In the case of a block, the code crashes and ceases execution immediately. I've tried to ameliorate this effect by adding a wait between each batch.
+
+With all of this in mind, I recommend running this program while the markets are closed since it takes quite some time to run!
 
 ## Parameters
 
