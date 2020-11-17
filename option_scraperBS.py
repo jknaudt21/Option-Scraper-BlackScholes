@@ -239,7 +239,7 @@ def scrapeData(startIndex, bs, rf, wait, verbose = True):
 # Main code
 cols  = ['Stock Price', 'Strike Price', 'Maturity', 'Dividends', 'Volatility', 'Risk-free', 'Call Price']
 results = pd.DataFrame(columns = cols)
-results.to_csv('SNP.csv', index = False)
+results.to_csv('SNP.csv', mode='a' index = False)
 
 num_batches = args.batches
 bs = args.bs

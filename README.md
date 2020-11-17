@@ -24,6 +24,8 @@ This program will scrape the following information about **all** current call co
 - Underlying stock dividend yield
 - Underlying stock implied volatility (this is the best proxy for a stock's volatility)
 
+Multiple runs will be stacked on top of each other
+
 Almost all data is scraped from Yahoo Finance, with the exception of implied volatility, which is scraped from AlphaQuery
 
 ## Usage
