@@ -36,11 +36,11 @@ With all of this in mind, I recommend running this program while the markets are
 
 ## Parameters
 
-Below is a list of the parameters that can be tuned when running  the `.py`. These parameters should be changed manually is using Jupyter.
+Below is a list of the parameters that can be tuned when running  the `.py`. All parameters are optional and have default values. These parameters should be changed manually is using Jupyter.
 
-- `--batches` - the number of company batches to be processed. Optional. Default is 5
-- `--bs` - the batch size (i.e the number of companys processed per batch). Optional. Default is 10
-- `--rf` - risk-free rate used in the output. **Required** Default is 0.0088
-- `--wait` - wait time between patches. Optional. Default is 500 seconds
-- `--verbose` - flag that determines whether the program prints progress. Should be 1 or 0. Optional. Default is 1
-- `--startIdx` - index to start parsing companies from (see [Wikipedia's list](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies) to understand the indexing). Optional. Default is 0
+- `--batches` - the number of company batches to be processed
+- `--bs` - the batch size (i.e the number of companys processed per batch)
+- `--rf` - risk-free rate used in the output
+- `--wait` - wait time between patches
+- `--verbose` - flag that determines whether the program prints progress. Should be 1 or 0
+- `--startIdx` - index to start parsing companies from (see [Wikipedia's list](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies) to understand the indexing)
