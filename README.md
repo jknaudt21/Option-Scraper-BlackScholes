@@ -27,7 +27,7 @@ This program will scrape the following information about **all** current call co
 Almost all data is scraped from Yahoo Finance, with the exception of implied volatility, which is scraped from AlphaQuery
 
 ## Usage
-This scraper is free to use! Just make sure to check out [this project](https://github.com/samuellee19/CSCI145_Option_Pricing) (*my grade might or might not depend on page views...*) and star this repo if you find the scraper useful!
+This scraper is free to use! Just make sure to check out [this project](https://github.com/samuellee19/CSCI145_Option_Pricing) (*my grade **might** or might not depend on page views...*) and star this repo if you find the scraper useful!
 
 On the more technical side, the scraper can be used in either a Jupyter notebook or a plain `.py` file; the code is almost completely identical. That being said, the `.py` file allows for faster [parameter](#Parameters) tuning. The company for which the scraping occurs comes from [Wikipedia's list](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies).
 
@@ -39,11 +39,12 @@ With all of this in mind, I recommend running this program while the markets are
 
 ## Parameters
 
-Below is a list of the parameters that can be tuned when running  the `.py`. All parameters are optional and have default values. These parameters should be changed manually is using Jupyter.
+Below is a list of the parameters that can be tuned when running  the `.py`. All parameters are optional and have default values. These parameters should be changed manually if using Jupyter.
 
 - `--batches` - the number of company batches to be processed
 - `--bs` - the batch size (i.e the number of companys processed per batch)
 - `--rf` - risk-free rate used in the output
-- `--wait` - wait time between patches
+- `--waitb` - wait time between batches
+- `--wait` - wait time between page requests
 - `--verbose` - flag that determines whether the program prints progress. Should be 1 or 0
 - `--startIdx` - index to start parsing companies from (see [Wikipedia's list](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies) to understand the indexing)

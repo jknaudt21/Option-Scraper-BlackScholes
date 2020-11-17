@@ -10,7 +10,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--batches", type= int, default=5, help="number of batches to extract data from")
 parser.add_argument("--bs", type= int, default=10, help="number of companies whose data will be extracted in a batch")
 parser.add_argument("--rf", type= float, default=0.0088, help="current risk free rate")
-parser.add_argument("--wait", type= float, default=500, help="time to wait between batches to avoid server denial")
+parser.add_argument("--wait", type= float, default=5, help="time to wait between page requests")
+parser.add_argument("--waitb", type= float, default=100, help="time to wait between batches to avoid server denial")
 parser.add_argument("--verbose", type= int, default=True, help="flag to print progress")
 parser.add_argument("--startIdx", type= int, default=0, help="company index to start scraping from")
 args = parser.parse_args()
@@ -141,13 +142,14 @@ def getOptionData(url):
                 prices.append(last)
     return strikes, prices
 
-def scrapeData(startIndex, bs, rf, verbose = True):
+def scrapeData(startIndex, bs, rf, wait, verbose = True):
     """Writes into a csv the option values for a batch of stock tickers. During execution may print url and company tickers
     Inputs:
         startIndex - company index to start scraping from (0 - 499)
         bs         - integer representing the batch size to scrape
         rf         - risk free rate
         verbose    - boolean that determines if you want output to be printed
+        wait       - wait period between page requests
     """
     if startIndex < 0 or startIndex >499:
         raise Exception("Invalid start index!")
@@ -176,6 +178,8 @@ def scrapeData(startIndex, bs, rf, verbose = True):
             print(url)
         dates = getDates(url)
 
+        time.sleep(wait)
+
         # Firt entry receives special treament in case maturity is today
         strikes, prices = getOptionData(url) 
         maturity = (dates[0] - unixToday)/(60*60*24*365.25) # Convert UNIX time difference to fraction of a year
@@ -203,6 +207,7 @@ def scrapeData(startIndex, bs, rf, verbose = True):
             
             maturity = (date - unixToday)/(60*60*24*365.25) # Convert UNIX time difference to fraction of a year
             strikes, call_prices = getOptionData(url)
+            time.sleep(wait)
             # Add data to dataframe
             frame['Strike Price'] = strikes
             frame['Call Price'] =  call_prices
@@ -236,14 +241,15 @@ rf = args.rf
 wait_period = args.wait
 verbose = args.verbose
 startIdx = args.startIdx
+waitB = args.waitb
 
 for i in range(num_batches):
     if (startIdx + (i*bs)) < (499 - bs): # only scrape data if we won't exceed the ticker list
-        scrapeData(startIdx+i*bs, bs, rf, verbose)
+        scrapeData( (startIdx+i*bs), bs, rf, wait_period, verbose)
         if verbose:
             print("Waiting for to avoid server denial")
             print()
-        time.sleep(wait_period)
+        time.sleep(waitB)
     else:
         break
 
