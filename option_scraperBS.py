@@ -21,7 +21,8 @@ from bs4 import BeautifulSoup
 import datetime, time
 import requests
 import pandas as pd
-import sched
+import os.path
+from os import path
 
 def getTickers():
     """Returns the tickers for all the S&P500 companies using the Wikipedia page
@@ -87,6 +88,7 @@ def getStockData(ticker):
         div_yield = 0
         
     # Get volatility
+    ticker = ticker.replace("-",".") #BRK.B exception
     volatility = getStockVol(ticker)
     
     return stock_price, div_yield, volatility
@@ -166,6 +168,7 @@ def scrapeData(startIndex, bs, rf, wait, verbose = True):
 
     # iterate through every ticker
     for i,ticker in enumerate(tickers[startIndex:startIndex+bs]):
+        ticker = ticker.replace(".","-") #BRK.B exception
         frame = pd.DataFrame(columns = cols) # fresh frame
         
         if verbose:
@@ -239,7 +242,8 @@ def scrapeData(startIndex, bs, rf, wait, verbose = True):
 # Main code
 cols  = ['Stock Price', 'Strike Price', 'Maturity', 'Dividends', 'Volatility', 'Risk-free', 'Call Price']
 results = pd.DataFrame(columns = cols)
-results.to_csv('SNP.csv', mode='a', index = False)
+if not path.exists('SNP.csv'): #Only create new file if it does not exist
+    results.to_csv('SNP.csv', mode='a', index = False)
 
 num_batches = args.batches
 bs = args.bs

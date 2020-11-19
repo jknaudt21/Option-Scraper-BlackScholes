@@ -31,11 +31,13 @@ Almost all data is scraped from Yahoo Finance, with the exception of implied vol
 ## Usage
 This scraper is free to use! Just make sure to check out [this project](https://github.com/samuellee19/CSCI145_Option_Pricing) (*my grade **might** or might not depend on page views...*) and star this repo if you find the scraper useful!
 
-On the more technical side, the scraper can be used in either a Jupyter notebook or a plain `.py` file; the code is almost completely identical. That being said, the `.py` file allows for faster [parameter](#Parameters) tuning. The company for which the scraping occurs comes from [Wikipedia's list](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies).
+On the more technical side, the scraper can be used in either a Jupyter notebook or a plain `.py` file; the code is almost completely identical. That being said, the `.py` file allows for faster [parameter](#Parameters) tuning. The company list for which the scraping occurs comes from [Wikipedia's list](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies).
 
 If you're using the `.py` make sure you pass the correct arguments (see below)
 
 **Important:** since the code is extracting a lot of data from several sites in Yahoo Finance and AlphaQuery, sometimes servers will block your IP for accessing their data for small period of time. In the case of a block, the code crashes and ceases execution immediately. I've tried to ameliorate this effect by adding a wait between each batch.
+
+**If the code crashes** due to a server denial (i.e `requests` returned `None`) you can restart the code at the company index the code crashed on and **you can still keep on appending on the same csv file**. 
 
 With all of this in mind, I recommend running this program while the markets are closed since it takes quite some time to run!
 
