@@ -8,7 +8,7 @@ Beyond the standard python libraries, the code requires `pandas`, `bs4` (Beautif
 
 ## Background
 
-This scraper was originally created for quite a fun [project I worked on](https://github.com/samuellee19/CSCI145_Option_Pricing) regarding the use of neural nets in option pricing. The project might still be on the works. Make sure to check it out! The project might still be on the works.
+This scraper was originally created for quite a fun [project I worked on](https://github.com/samuellee19/CSCI145_Option_Pricing) regarding the use of neural nets in option pricing. Make sure to check it out! 
 
 Getting access to option data can be quite expensive - especially when getting data in bulk. Datasets are often protected behind a paywall that can range from \$10-100. Furthermore, for those having access to financial tools such as a Bloomberg terminal (I'm looking at you, students), there is often a data quota that should not be exceeded.
 
