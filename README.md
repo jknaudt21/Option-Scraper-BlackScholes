@@ -29,7 +29,7 @@ Multiple runs will be stacked on top of each other
 Almost all data is scraped from Yahoo Finance, with the exception of implied volatility, which is scraped from AlphaQuery
 
 ## Usage
-This scraper is free to use! Just make sure to check out [this project](https://github.com/samuellee19/CSCI145_Option_Pricing) (*my grade **might** or might not depend on page views...*) and star this repo if you find the scraper useful!
+This scraper is free to use! Just make sure to check out [this project](https://github.com/samuellee19/CSCI145_Option_Pricing) and star this repo if you find the code useful!
 
 On the more technical side, the scraper can be used in either a Jupyter notebook or a plain `.py` file; the code is almost completely identical. That being said, the `.py` file allows for faster [parameter](#Parameters) tuning. The company list for which the scraping occurs comes from [Wikipedia's list](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies).
 
