@@ -24,6 +24,12 @@ import pandas as pd
 import os.path
 from os import path
 
+# header to fix yahoo automation detection
+
+headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                         "AppleWebKit/605.1.15 (KHTML, like Gecko) "
+                         "Version/15.4 Safari/605.1.15"}
+
 def getTickers():
     """Returns the tickers for all the S&P500 companies using the Wikipedia page
     Outputs: 
@@ -66,7 +72,7 @@ def getStockData(ticker):
         volatility  - stock's implied volatility
     """
     url = "https://finance.yahoo.com/quote/"+ticker # Change url based on ticker
-    page = requests.get(url)
+    page = requests.get(url, headers = headers)
     soup = BeautifulSoup(page.content, 'html.parser')
     tables = soup.find_all("table") # tables in Yahoo finance
     
@@ -101,7 +107,7 @@ def getDates(url):
     Outputs: 
         dates - list of dates (UNIX time) for the underlying ticker
     """
-    page = requests.get(url)
+    page = requests.get(url, headers = headers)
     soup = BeautifulSoup(page.content, 'html.parser')
     dates = []
     selector = soup.find("select")
@@ -118,7 +124,7 @@ def getOptionData(url):
         strikes - list of all strike prices
         prices  - list of all call prices
     """
-    page = requests.get(url)
+    page = requests.get(url, headers = headers)
     soup = BeautifulSoup(page.content, 'html.parser')
     table = soup.find("table")
     if table == None: #Avoid crashes with empty options page
